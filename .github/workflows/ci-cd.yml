@@ -28,3 +28,20 @@ jobs:
       # Step 3: project config and tests executions
       - name: Build and test with Maven
         run: mvn clean verify
+
+      # Step 4: package the app, create .jar
+      - name: Package application
+        run: mvn clean package
+
+      # catch and attach the test coverage report
+      # on terminal, run: mvn clean verify to generate the report in target/site/jacoco
+      # Step 5: Generate test coverage report
+      - name: Generate test coverage report
+        run: mvn jacoco:report
+
+      # Step 6: Upload cover as artifact
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: target/site/jacoco
